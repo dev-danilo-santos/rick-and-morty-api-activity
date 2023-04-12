@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Button} from 'react-native'
 import { getLocation } from '../../component/api/rick-and-morty'
 
-const LocationDetailScreen = ({ route }) => {
+const LocationDetailScreen = ({ navigation,route }) => {
   const { name } = route.params
-  const [Location, setLocation] = useState(null)
+  const [location, setLocation] = useState({})
 
   useEffect(() => {
-    const fetchLocation = async () => {
+    async function fetchLocation() {
       try {
         const { data: { results } } = await getLocation({ name })
         setLocation(results[0])
@@ -17,18 +17,30 @@ const LocationDetailScreen = ({ route }) => {
     }
 
     fetchLocation()
-  }, [name])
+  }, [])
+  function goToHomeScreen(listIds){ 
+    navigation.navigate("CharsEffect",{listIds})
+  }
 
+  function extractIds(residents) {
+    const ids = [];
+    residents.forEach((url) => {
+      ids.push(url.split("/").pop());
+    });
+    return ids;
+  }
+  
   return (
     <View>
-      {Location && (
+      {location && (
         <View>
-          <Text>Name: {Location.name}</Text>
-          <Text>Type: {Location.type}</Text>
-          <Text>Dimension: {Location.dimension}</Text>
-          <button>
-            Residents
-          </button>
+          <Text>Name: {location.name}</Text>
+          <Text>Type: {location.type}</Text>
+          <Text>Dimension: {location.dimension}</Text>
+          <Button
+            title='Residents'
+           onPress={ () => {goToHomeScreen(extractIds(location.residents))}}
+          />
 
         </View>
       )}

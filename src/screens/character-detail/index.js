@@ -16,9 +16,8 @@ const CharacterDetailScreen = ({navigation,route }) => {
       }
     }
 
-    
     fetchCharacter()
-  }, [name])
+  }, [])
 
   function fetchLocationDetails(name) {
     navigation.navigate('LocationDetail',{name})

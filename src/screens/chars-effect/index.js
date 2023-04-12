@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, Button, View, Image, Text, FlatList, TextInput } from 'react-native'
 import { getCharacter, getNextCharacterPage } from '../../component/api/rick-and-morty'
 import CharacterDetailScreen from './../character-detail/index';
+import { getCharacterId } from '../../component/api/rick-and-morty';
 
-const CharsEffectScreen = ({navigation} ,props) => {
+const CharsEffectScreen = ({navigation} ,props, route) => {
   const [fetchResult, setFetchResult] = useState({ pageInfo: {}, characters: [] })
   const [nameSearch, setNameSearch] = useState('')
+  const [idPerson, setIdPerson] = route ? route.params : useState('')
 
-  async function fetchData(name = '', location = false) {
+  async function fetchData(nameOrIds = '', location = true) {
     try {
-      const { data: { info, results } } = await getCharacter({ name: name })
+        
+        const { data: { info, results } } = location? await getCharacterId ({ name: nameOrIds }) : await getCharacter({ name: nameOrIds })
+     
       setFetchResult({ pageInfo: info, characters: results })
     } catch (error) {
       setFetchResult({ pageInfo: {}, characters: [] })
