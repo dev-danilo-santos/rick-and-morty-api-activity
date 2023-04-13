@@ -49,9 +49,9 @@ const CharsEffectScreen = ({navigation} ,props, route) => {
             <Text onPress={() => fetchCharacterDetails(name)} style={styles.characterContainer}>
               
               <Image style={styles.characterImage} source={{ uri: image }} />
-              <View >
-                <Text>{name}</Text>
-                <Text>{status}</Text>
+              <Text style={styles.absolute}>{status}</Text>
+              <View style={styles.txtBox}>
+                <Text><strong>{name}</strong></Text>
                 <Text>{species}</Text>
               </View>
               
@@ -80,15 +80,23 @@ const styles = StyleSheet.create({
   },
   characterContainer: {
     display:'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    marginVertical: 10,
-    width: "50%",
+    width: "204px",
+    borderColor: "blue",
+    borderWidth: "2px",
+    borderStyle: 'solid',
+    borderRadius: "10px",
+    margin: "auto",
+    marginBottom: "15px",
+    position: 'relative',
+
   },
   characterImage: {
-    width: 90,
-    height: 90,
-    marginRight: 10
+    width: 200,
+    height: 200,
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px"
   },
   textInput: {
     borderWidth: 1,
@@ -101,6 +109,21 @@ const styles = StyleSheet.create({
   },
   card: {
 
+  },
+  absolute: {
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    padding: "5px",
+    backgroundColor: "darkgreen",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  txtBox: {
+    width: "100%",
+    padding: "10px",
+    gap: "5px"
   }
 })
 

@@ -28,14 +28,14 @@ const EpisodeScreen = (props) => {
         <FlatList
         style={styles.marginVertical}
         data={episode.allEpisodes}
-        renderItem={({ item: { name, status, species } }) => {
+        renderItem={({ item: { name, air_date, episode } }) => {
           return (
             <Text style={styles.characterContainer}>
               
               <View >
                 <Text>{name}</Text>
-                <Text>{status}</Text>
-                <Text>{species}</Text>
+                <Text>{air_date}</Text>
+                <Text>{episode}</Text>
               </View>
               
             </Text>
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginVertical: 10,
       width: "50%",
+      margin: 'auto',
     },
     characterImage: {
       width: 90,
