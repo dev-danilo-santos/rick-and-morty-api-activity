@@ -22,6 +22,10 @@ const CharacterDetailScreen = ({navigation,route }) => {
   function fetchLocationDetails(name) {
     navigation.navigate('LocationDetail',{name})
   }
+
+  function fetchEpisodes(episodes) {
+    navigation.navigate('EpisodeDetail', {episodes})
+  }
   
   return (
     <View>
@@ -35,6 +39,7 @@ const CharacterDetailScreen = ({navigation,route }) => {
           <Text>Gender: {character.gender}</Text>
           <Text onPress={() => fetchLocationDetails(character.origin.name)}>Origin: {character.origin.name}</Text>
           <Text onPress={() => fetchLocationDetails(character.location.name)}>Location: {character.location.name}</Text>
+          <Text onPress={() => fetchEpisodes(character.episode)}>Episodios</Text>
         </View>
       )}
     </View>

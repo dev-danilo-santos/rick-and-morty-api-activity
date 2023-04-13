@@ -20,7 +20,10 @@ const getCharacterId = async ({ ids = [] }) => {
   return await client.get(uri)
 }
 
-
+const getEpisode = async ( {episode} ) => {
+  const uri = encodeURI(`episode/${episode}`)
+  return await client.get(uri)
+}
 
 const getLocation = async ({ name = ''}) => {
   const uri = encodeURI(`location/?name=${name}`)
@@ -29,4 +32,4 @@ const getLocation = async ({ name = ''}) => {
 
 
 
-export { getCharacter, getNextCharacterPage, getLocation, getCharacterId }
+export { getCharacter, getNextCharacterPage, getLocation, getCharacterId, getEpisode }
