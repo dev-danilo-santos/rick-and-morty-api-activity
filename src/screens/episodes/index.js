@@ -2,33 +2,53 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, FlatList, } from 'react-native'
 import { getEpisode } from '../../component/api/rick-and-morty'
 
-const EpisodeScreen = (props) => {
-  const urls = props.route.params.episodes
+const EpisodeScreen = ({navigation, route}) => {
+  const urls = route.params.episodes
   const epMap = urls.map((url) => parseInt(url.split("/").pop()))
-
-  const [episode, setEpisode] = useState({allEpisodes: []})
-
-  console.log(epMap)
+  
+  const [episode, setEpisode] = useState({});
+  const [characters, setCharacters] = useState([])
 
   useEffect(() => {
     const fetchEpisodes = async () => {
       try {
-          const info = await getEpisode( {episode: epMap} )
-        setEpisode({allEpisodes: info.data})
+        const info = await getEpisode({ episode: epMap });
+        const episodesData = {};
+        if(info.data.length > 1){
+          info.data.forEach((ep) => {
+            episodesData[ep.id] = ep; // Cria uma propriedade para cada episódio, usando o id como chave
+          });
+        }else{
+          episodesData[0] = info.data;
+        }
+        setEpisode(episodesData);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    }
+    };
+    fetchEpisodes();
+  }, []);
 
-    fetchEpisodes()
-  }, [])
+
+  function findEp(id){
+    const numPropriedades = Object.keys(episode).length;
+    let type;
+    if(numPropriedades == "1"){
+      type = [0]
+    }else{
+      type = [id]
+    }
+    // const charMap = urls.map((url) => parseInt(url.split("/").pop()))
+    const allChars = episode[type].characters;
+    console.log(tipo)
+  }
 
   return (
-    <View>
+    <View style={styles.mainView}>
         <FlatList
         style={styles.marginVertical}
-        data={episode.allEpisodes}
-        renderItem={({ item: { name, air_date, episode } }) => {
+        data={Object.values(episode)}
+        renderItem={({ item: { name, air_date, episode, id } }) => {
           return (
             <Text style={styles.characterContainer}>
               
@@ -36,6 +56,9 @@ const EpisodeScreen = (props) => {
                 <Text>{name}</Text>
                 <Text>{air_date}</Text>
                 <Text>{episode}</Text>
+                <Text>{id}</Text>
+                {/* <Text onPress={() => fetchCharacter(characters[id])}>Personagens</Text> */}
+                <Text onPress={() => findEp(id)}>Personagens</Text>
               </View>
               
             </Text>
@@ -56,7 +79,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       marginVertical: 10,
-      width: "50%",
+      width: "100%",
       margin: 'auto',
     },
     characterImage: {

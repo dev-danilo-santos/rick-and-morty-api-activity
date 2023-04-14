@@ -4,7 +4,7 @@ import { getCharacter, getNextCharacterPage } from '../../component/api/rick-and
 import CharacterDetailScreen from './../character-detail/index';
 import { getCharacterId } from '../../component/api/rick-and-morty';
 
-const CharsEffectScreen = ({navigation} ,props, route) => {
+const CharsEffectScreen = ({navigation} , props, route) => {
   const [fetchResult, setFetchResult] = useState({ pageInfo: {}, characters: [] })
   const [nameSearch, setNameSearch] = useState('')
   const [idPerson, setIdPerson] = route ? route.params : useState('')
@@ -102,13 +102,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#CCCCCC',
     height: 35,
-    padding: 5
+    padding: 5,
+    borderRadius: "6px",
+    borderColor: "darkgreen",
   },
   marginVertical: {
     marginVertical: 5
-  },
-  card: {
-
   },
   absolute: {
     position: "absolute",

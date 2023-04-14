@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image } from 'react-native'
 import { getCharacter } from '../../component/api/rick-and-morty'
 
 const CharacterDetailScreen = ({navigation,route }) => {
   const { name } = route.params
   const [character, setCharacter] = useState(null)
+  const [modalVisible, setModalVisible] = useState(true);
 
   useEffect(() => {
     const fetchCharacter = async () => {
@@ -30,20 +31,113 @@ const CharacterDetailScreen = ({navigation,route }) => {
   return (
     <View>
       {character && (
-        <View>
-          <Image style={{ width: 200, height: 200 }} source={{ uri: character.image }} />
-          <Text>Name: {character.name}</Text>
-          <Text>Status: {character.status}</Text>
-          <Text>Species: {character.species}</Text>
-          <Text>Type: { character.type ? character.type : "Unkdown" }</Text>
-          <Text>Gender: {character.gender}</Text>
-          <Text onPress={() => fetchLocationDetails(character.origin.name)}>Origin: {character.origin.name}</Text>
-          <Text onPress={() => fetchLocationDetails(character.location.name)}>Location: {character.location.name}</Text>
-          <Text onPress={() => fetchEpisodes(character.episode)}>Episodios</Text>
+        <View style={styles.charInfo}>
+          <View style={styles.charBox}>
+            <Image style={styles.charImg} source={{ uri: character.image }} />
+            <Text style={styles.charStatus}>Status: {character.status}</Text>
+          </View>
+          <View style={styles.charFile}>
+            <Text style={styles.charInfos}>Name: {character.name}</Text>
+
+            <Text style={styles.charInfos}>Species: {character.species}</Text>
+            <Text style={styles.charInfos}>Type: { character.type ? character.type : "Unkdown" }</Text>
+            <Text style={styles.charInfos}>Gender: {character.gender}</Text>
+
+            <Text style={styles.charLocs} onPress={() => fetchLocationDetails(character.origin.name)}>Origin: {character.origin.name}</Text>
+            <Text style={styles.charLocs} onPress={() => fetchLocationDetails(character.location.name)}>Location: {character.location.name}</Text>
+
+          </View>
+          <Text style={styles.openEp} onPress={() => fetchEpisodes(character.episode)}>Episodios</Text>
         </View>
       )}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  charInfo: {
+    justifyContent: 'center',
+    padding: "12px",
+    alignItems: "center",
+    gap: "5px"
+  },
+  charImg: {
+    width: "200px",
+    height: "200px",
+    borderRadius: "10px",
+    borderWidth: "1px",
+    borderColor: "#cecece",
+    borderStyle: "solid"
+  },
+  charBox: {
+    position: 'relative',
+  },
+  charStatus:{
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    padding: "5px",
+    backgroundColor: "darkgreen",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  openEp: {
+    width: "80%",
+    height: '60px',
+    backgroundColor: "#fcfe8c",
+    display: 'flex',
+    alignItems: "center",
+    justifyContent: 'center',
+    color: "#985a2c",
+    fontWeight: 900,
+    fontSize: "20px",
+    borderRadius: "10px",
+    marginTop: "15px",
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    borderWidth: "1px",
+    borderColor: "#cecece",
+    borderStyle: "solid"
+
+  },
+  charFile:{
+    width: '80%',
+    height: 'auto',
+    borderRadius: "10px",
+    borderWidth: "3px",
+    borderColor: "#cecece",
+    borderStyle: "solid",
+    padding: "10px",
+    gap: "5px"
+  },
+  charLocs: {
+    textAlign: "center",
+    fontWeight: 700,
+    backgroundColor: "#a0d4e7",
+    borderRadius: "10px",
+    marginTop: "15px",
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    width: "100%",
+    height: '60px',
+    padding: "10px",
+    display: 'flex',
+    alignItems: "center",
+    justifyContent: 'center',
+    borderWidth: "1px",
+    borderColor: "#cecece",
+    borderStyle: "solid"
+  },
+  charInfos: {
+    textAlign: "center",
+    fontWeight: 900
+  }
+})
+
 
 export default CharacterDetailScreen
