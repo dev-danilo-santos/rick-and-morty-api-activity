@@ -9,6 +9,8 @@ const CharsEffectScreen = ({navigation} , props, route) => {
   const [nameSearch, setNameSearch] = useState('')
   const [idPerson, setIdPerson] = route ? route.params : useState('')
 
+  console.log(props)
+
   async function fetchData(nameOrIds = '', location = true) {
     try {
         

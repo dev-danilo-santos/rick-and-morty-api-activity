@@ -38,10 +38,21 @@ const EpisodeScreen = ({navigation, route}) => {
     }else{
       type = [id]
     }
-    // const charMap = urls.map((url) => parseInt(url.split("/").pop()))
     const allChars = episode[type].characters;
-    console.log(tipo)
+    const charMap = allChars.map((url) => parseInt(url.split("/").pop()))
+    fetchPersonagens(charMap)
   }
+
+  function fetchPersonagens(ids) {
+    setCharacters(ids)
+    // navigation.navigate('CharsEffect', characters)
+    console.log(characters)
+  }
+
+  useEffect(() => {
+    fetchPersonagens()
+  }, [episode])
+
 
   return (
     <View style={styles.mainView}>
