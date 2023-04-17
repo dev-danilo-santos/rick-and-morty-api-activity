@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, FlatList, } from 'react-native'
+import { StyleSheet, View, Text, FlatList, Button, } from 'react-native'
 import { getEpisode } from '../../component/api/rick-and-morty'
 
 const EpisodeScreen = ({navigation, route}) => {
@@ -29,30 +29,28 @@ const EpisodeScreen = ({navigation, route}) => {
     fetchEpisodes();
   }, []);
 
-
-  function findEp(id){
+  function findEp(id) {
     const numPropriedades = Object.keys(episode).length;
     let type;
-    if(numPropriedades == "1"){
+    if (numPropriedades == "1") {
       type = [0]
-    }else{
+    } else {
       type = [id]
     }
-    const allChars = episode[type].characters;
-    const charMap = allChars.map((url) => parseInt(url.split("/").pop()))
-    fetchPersonagens(charMap)
+    const currentEpisode = episode[type];
+    if (currentEpisode) {
+      const allChars = currentEpisode.characters;
+      const charMap = allChars.map((url) => parseInt(url.split("/").pop()))
+      setCharacters(charMap)
+    }
   }
-
-  function fetchPersonagens(ids) {
-    setCharacters(ids)
-    // navigation.navigate('CharsEffect', characters)
-    console.log(characters)
-  }
-
+  
   useEffect(() => {
-    fetchPersonagens()
-  }, [episode])
-
+    if (characters.length > 0) {
+      navigation.navigate('CharsEffect', { characters: characters })
+    }
+  }, [characters])
+  
 
   return (
     <View style={styles.mainView}>
@@ -63,13 +61,13 @@ const EpisodeScreen = ({navigation, route}) => {
           return (
             <Text style={styles.characterContainer}>
               
-              <View >
+              <View style={styles.charInfo}>
                 <Text>{name}</Text>
                 <Text>{air_date}</Text>
                 <Text>{episode}</Text>
-                <Text>{id}</Text>
-                {/* <Text onPress={() => fetchCharacter(characters[id])}>Personagens</Text> */}
-                <Text onPress={() => findEp(id)}>Personagens</Text>
+                <Button
+                  title='Personagens'
+                  onPress={() => findEp(id)}>Personagens</Button>
               </View>
               
             </Text>
@@ -109,6 +107,13 @@ const styles = StyleSheet.create({
     },
     card: {
   
+    },
+    charInfo: {
+      width:'100%',
+      gap: '5px',
+      borderWidth: 2,
+      borderColor: '#CCCCCC',
+      padding: '5px'
     }
 })
 export default EpisodeScreen

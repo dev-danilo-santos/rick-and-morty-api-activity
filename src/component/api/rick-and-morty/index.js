@@ -15,7 +15,7 @@ const getCharacter = async ({ name = '' }) => {
   const uri = encodeURI(`character/?name=${name}`)
   return await client.get(uri)
 }
-const getCharacterId = async ({ ids = [] }) => {
+const getCharacterId = async ({ ids = '' }) => {
   const uri = encodeURI(`character/${ids}`)
   return await client.get(uri)
 }

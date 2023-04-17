@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Button, View, Image, Text, FlatList, TextInput } from 'react-native'
-import { getCharacter, getNextCharacterPage } from '../../component/api/rick-and-morty'
+import { getCharacter, getCharacterId, getNextCharacterPage } from '../../component/api/rick-and-morty'
 import CharacterDetailScreen from './../character-detail/index';
-import { getCharacterId } from '../../component/api/rick-and-morty';
 
-const CharsEffectScreen = ({navigation} , props, route) => {
+const CharsEffectScreen = ({navigation , route}) => {
   const [fetchResult, setFetchResult] = useState({ pageInfo: {}, characters: [] })
   const [nameSearch, setNameSearch] = useState('')
-  const [idPerson, setIdPerson] = route ? route.params : useState('')
+  // const [idPerson, setIdPerson] = route ? route.params : useState('')
+  const [personagens, setPersonagens] = useState({chars: ''});
 
-  console.log(props)
-
-  async function fetchData(nameOrIds = '', location = true) {
+  async function fetchNameData() {
     try {
-        
-        const { data: { info, results } } = location? await getCharacterId ({ name: nameOrIds }) : await getCharacter({ name: nameOrIds })
-     
-      setFetchResult({ pageInfo: info, characters: results })
+      const { data: { info, results } } = await getCharacter({ name: nameSearch })
+      setFetchResult(prevState => ({ ...prevState, pageInfo: info, characters: results }))
+
     } catch (error) {
+      setFetchResult({ pageInfo: {}, characters: [] })
+    }
+  }
+
+  async function fetchIdData() {
+    try {
+
+        const response = await getCharacterId({ ids: personagens.chars })
+        setFetchResult(prevState => ({ ...prevState, pageInfo: '', characters: response.data }))
+
+    } catch (error) {
+      console.log(error)
       setFetchResult({ pageInfo: {}, characters: [] })
     }
   }
@@ -25,14 +34,21 @@ const CharsEffectScreen = ({navigation} , props, route) => {
   function fetchCharacterDetails(name) {
     navigation.navigate('CharacterDetail', {name})
   }
-  
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if ((route.params && route.params.characters && route.params.characters.length > 0)) {
+      setPersonagens({ chars: route.params.characters });
+    }
+  }, [route.params]);
 
   useEffect(() => {
-    fetchData(nameSearch)
+    if(personagens.chars && personagens.chars != "" && personagens.chars.length > 0){
+      fetchIdData(personagens.chars)
+    }
+  }, [personagens])
+
+  useEffect(() => {
+    fetchNameData(nameSearch)
   }, [nameSearch])
 
   return (
@@ -40,6 +56,7 @@ const CharsEffectScreen = ({navigation} , props, route) => {
       <TextInput
         style={[styles.textInput, styles.marginVertical]}
         onChangeText={setNameSearch}
+        placeholder='Pesquise algum personagem'
         value={nameSearch}
       />
       <FlatList
@@ -61,15 +78,16 @@ const CharsEffectScreen = ({navigation} , props, route) => {
           )
         }}
       />
-      <Button
-        title="Load More..."
-        disabled={!fetchResult.pageInfo.next}
-        onPress={async () => {
-          const currentResults = fetchResult.characters
-          const { data: { info, results } } = await getNextCharacterPage(fetchResult.pageInfo.next)
-          setFetchResult({ pageInfo: info, characters: [...currentResults, ...results] })
-        }}
-      />
+      {fetchResult.pageInfo?.next && (
+        <Button
+          title="Load More..."
+          onPress={async () => {
+            const currentResults = fetchResult.characters
+            const { data: { info, results } } = await getNextCharacterPage(fetchResult.pageInfo.next)
+            setFetchResult({ pageInfo: info, characters: [...currentResults, ...results] })
+          }}
+        />
+      )}
     </View>
   )
 }
