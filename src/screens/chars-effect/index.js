@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Button, View, Image, Text, FlatList, TextInput } from 'react-native'
 import { getCharacter, getCharacterId, getNextCharacterPage } from '../../component/api/rick-and-morty'
-import CharacterDetailScreen from './../character-detail/index';
 
 const CharsEffectScreen = ({navigation , route}) => {
   const [fetchResult, setFetchResult] = useState({ pageInfo: {}, characters: [] })

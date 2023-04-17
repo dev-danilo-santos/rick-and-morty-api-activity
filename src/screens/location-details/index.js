@@ -19,7 +19,7 @@ const LocationDetailScreen = ({ navigation,route }) => {
     fetchLocation()
   }, [])
   function goToHomeScreen(listIds){ 
-    navigation.navigate("CharsEffect",{listIds})
+    navigation.navigate("CharsEffect",{"characters": listIds})
   }
 
   function extractIds(residents) {
