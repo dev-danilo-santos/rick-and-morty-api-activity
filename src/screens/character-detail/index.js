@@ -15,10 +15,10 @@ const CharacterDetailScreen = ({navigation,route }) => {
     navigation.navigate('EpisodeDetail', {episodes})
   }
   
-  function styleReturn(status){
-    if(status == "Alive") return styles.charStatusAlive
-    else if (status == "Dead") return styles.charStatusDead
-    else return styles.charStatusUnknown
+  function styleColor(status){
+    if(status == "Alive") return styles.green
+    else if (status == "Dead") return styles.red
+    else return styles.gray
   }
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const CharacterDetailScreen = ({navigation,route }) => {
         <View style={styles.charInfo}>
           <View style={styles.charBox}>
             <Image style={styles.charImg} source={{ uri: character.image }} />
-            <Text style={styleReturn(character.status)}>Status: {character.status}</Text>
+            <Text style={[styleColor(character.status), styles.charStatus]}>Status: {character.status}</Text>
           </View>
           <View style={styles.charFile}>
             <Text style={styles.charInfos}>Name: {character.name}</Text>
@@ -78,35 +78,23 @@ const styles = StyleSheet.create({
   charBox: {
     position: 'relative',
   },
-  charStatusAlive:{
+  charStatus:{
     position: "absolute",
     right: "10px",
     top: "10px",
     padding: "5px",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  green: {
     backgroundColor: "darkgreen",
-    color: "white",
-    fontWeight: 900,
-    borderRadius: "10px"
   },
-  charStatusDead:{
-    position: "absolute",
-    right: "10px",
-    top: "10px",
-    padding: "5px",
-    backgroundColor: "red",
-    color: "white",
-    fontWeight: 900,
-    borderRadius: "10px"
-  },
-    charStatusUnknown:{
-    position: "absolute",
-    right: "10px",
-    top: "10px",
-    padding: "5px",
+  gray: {
     backgroundColor: "gray",
-    color: "white",
-    fontWeight: 900,
-    borderRadius: "10px"
+  },
+  red: {
+    backgroundColor: "red",
   },
   openEp: {
     width: "80%",

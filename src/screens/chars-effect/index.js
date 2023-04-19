@@ -34,10 +34,10 @@ const CharsEffectScreen = ({navigation , route}) => {
     navigation.navigate('CharacterDetail', {name})
   }
 
-  function styleReturn(status){
-    if(status == "Alive") return styles.absolute
-    else if (status == "Dead") return styles.absoluteDead
-    else return styles.absoluteUnknown
+  function styleColor(status){
+    if(status == "Alive") return styles.green
+    else if (status == "Dead") return styles.red
+    else return styles.gray
   }
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const CharsEffectScreen = ({navigation , route}) => {
             <Text onPress={() => fetchCharacterDetails(name)} style={styles.characterContainer}>
               
               <Image style={styles.characterImage} source={{ uri: image }} />
-              <Text style={styleReturn(status)}>{status}</Text>
+              <Text style={[styles.absolute,styleColor(status)]}>{status}</Text>
               <View style={styles.txtBox}>
                 <Text><strong>{name}</strong></Text>
                 <Text>{species}</Text>
@@ -146,30 +146,18 @@ const styles = StyleSheet.create({
     right: "10px",
     top: "10px",
     padding: "5px",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  green: {
     backgroundColor: "darkgreen",
-    color: "white",
-    fontWeight: 900,
-    borderRadius: "10px"
   },
-  absoluteDead: {
-    position: "absolute",
-    right: "10px",
-    top: "10px",
-    padding: "5px",
-    backgroundColor: "red",
-    color: "white",
-    fontWeight: 900,
-    borderRadius: "10px"
-  },
-  absoluteUnknown: {
-    position: "absolute",
-    right: "10px",
-    top: "10px",
-    padding: "5px",
+  gray: {
     backgroundColor: "gray",
-    color: "white",
-    fontWeight: 900,
-    borderRadius: "10px"
+  },
+  red: {
+    backgroundColor: "red",
   },
   txtBox: {
     width: "100%",
