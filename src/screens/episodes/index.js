@@ -8,6 +8,7 @@ const EpisodeScreen = ({navigation, route}) => {
   
   const [episode, setEpisode] = useState({});
   const [characters, setCharacters] = useState([])
+  const [episodeName, setEpisodeName] = useState('')
 
   useEffect(() => {
     const fetchEpisodes = async () => {
@@ -38,6 +39,7 @@ const EpisodeScreen = ({navigation, route}) => {
       type = [id]
     }
     const currentEpisode = episode[type];
+    setEpisodeName(`Personagens do Episódio: ${currentEpisode.name} - ${currentEpisode.episode}`);
     if (currentEpisode) {
       const allChars = currentEpisode.characters;
       const charMap = allChars.map((url) => parseInt(url.split("/").pop()))
@@ -47,7 +49,7 @@ const EpisodeScreen = ({navigation, route}) => {
   
   useEffect(() => {
     if (characters.length > 0) {
-      navigation.navigate('CharsEffect', { characters: characters })
+      navigation.navigate('CharsEffect', { characters: characters, episodeName:episodeName })
     }
   }, [characters])
   

@@ -7,6 +7,20 @@ const CharacterDetailScreen = ({navigation,route }) => {
   const [character, setCharacter] = useState(null)
   const [modalVisible, setModalVisible] = useState(true);
 
+  function fetchLocationDetails(name) {
+    navigation.navigate('LocationDetail',{name})
+  }
+  
+  function fetchEpisodes(episodes) {
+    navigation.navigate('EpisodeDetail', {episodes})
+  }
+  
+  function styleReturn(status){
+    if(status == "Alive") return styles.charStatusAlive
+    else if (status == "Dead") return styles.charStatusDead
+    else return styles.charStatusUnknown
+  }
+
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
@@ -19,14 +33,6 @@ const CharacterDetailScreen = ({navigation,route }) => {
 
     fetchCharacter()
   }, [])
-
-  function fetchLocationDetails(name) {
-    navigation.navigate('LocationDetail',{name})
-  }
-
-  function fetchEpisodes(episodes) {
-    navigation.navigate('EpisodeDetail', {episodes})
-  }
   
   return (
     <View>
@@ -34,7 +40,7 @@ const CharacterDetailScreen = ({navigation,route }) => {
         <View style={styles.charInfo}>
           <View style={styles.charBox}>
             <Image style={styles.charImg} source={{ uri: character.image }} />
-            <Text style={styles.charStatus}>Status: {character.status}</Text>
+            <Text style={styleReturn(character.status)}>Status: {character.status}</Text>
           </View>
           <View style={styles.charFile}>
             <Text style={styles.charInfos}>Name: {character.name}</Text>
@@ -72,12 +78,32 @@ const styles = StyleSheet.create({
   charBox: {
     position: 'relative',
   },
-  charStatus:{
+  charStatusAlive:{
     position: "absolute",
     right: "10px",
     top: "10px",
     padding: "5px",
     backgroundColor: "darkgreen",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  charStatusDead:{
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    padding: "5px",
+    backgroundColor: "red",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+    charStatusUnknown:{
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    padding: "5px",
+    backgroundColor: "gray",
     color: "white",
     fontWeight: 900,
     borderRadius: "10px"

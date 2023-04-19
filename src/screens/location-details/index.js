@@ -18,9 +18,6 @@ const LocationDetailScreen = ({ navigation,route }) => {
 
     fetchLocation()
   }, [])
-  function goToHomeScreen(listIds){ 
-    navigation.navigate("CharsEffect",{"characters": listIds})
-  }
 
   function extractIds(residents) {
     const ids = [];
@@ -39,8 +36,15 @@ const LocationDetailScreen = ({ navigation,route }) => {
           <Text>Dimension: {location.dimension}</Text>
           <Button
             title='Residents'
-           onPress={ () => {goToHomeScreen(extractIds(location.residents))}}
+            onPress={() => {
+              const residentsIds = extractIds(location.residents)
+              navigation.navigate("CharsEffect", {
+              characters: residentsIds,
+              locationName: `Personagens da localização: ${location.name}`,
+               })
+            }}
           />
+
 
         </View>
       )}

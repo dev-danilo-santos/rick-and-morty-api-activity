@@ -5,7 +5,7 @@ import { getCharacter, getCharacterId, getNextCharacterPage } from '../../compon
 const CharsEffectScreen = ({navigation , route}) => {
   const [fetchResult, setFetchResult] = useState({ pageInfo: {}, characters: [] })
   const [nameSearch, setNameSearch] = useState('')
-  // const [idPerson, setIdPerson] = route ? route.params : useState('')
+  const { locationName, episodeName } = route.params || {}
   const [personagens, setPersonagens] = useState({chars: ''});
 
   async function fetchNameData() {
@@ -34,6 +34,12 @@ const CharsEffectScreen = ({navigation , route}) => {
     navigation.navigate('CharacterDetail', {name})
   }
 
+  function styleReturn(status){
+    if(status == "Alive") return styles.absolute
+    else if (status == "Dead") return styles.absoluteDead
+    else return styles.absoluteUnknown
+  }
+
   useEffect(() => {
     if ((route.params && route.params.characters && route.params.characters.length > 0)) {
       setPersonagens({ chars: route.params.characters });
@@ -58,6 +64,8 @@ const CharsEffectScreen = ({navigation , route}) => {
         placeholder='Pesquise algum personagem'
         value={nameSearch}
       />
+       {episodeName && <Text style={styles.title}>{episodeName}</Text>}
+       {location && <Text style={styles.title}>{locationName}</Text>}
       <FlatList
         style={styles.marginVertical}
         data={fetchResult.characters}
@@ -67,7 +75,7 @@ const CharsEffectScreen = ({navigation , route}) => {
             <Text onPress={() => fetchCharacterDetails(name)} style={styles.characterContainer}>
               
               <Image style={styles.characterImage} source={{ uri: image }} />
-              <Text style={styles.absolute}>{status}</Text>
+              <Text style={styleReturn(status)}>{status}</Text>
               <View style={styles.txtBox}>
                 <Text><strong>{name}</strong></Text>
                 <Text>{species}</Text>
@@ -96,6 +104,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     backgroundColor: 'white',
+  },
+  title: {
+    display: 'flex',
+    justifyContent:'center',
+    fontSize: 18,
   },
   characterContainer: {
     display:'flex',
@@ -134,6 +147,26 @@ const styles = StyleSheet.create({
     top: "10px",
     padding: "5px",
     backgroundColor: "darkgreen",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  absoluteDead: {
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    padding: "5px",
+    backgroundColor: "red",
+    color: "white",
+    fontWeight: 900,
+    borderRadius: "10px"
+  },
+  absoluteUnknown: {
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    padding: "5px",
+    backgroundColor: "gray",
     color: "white",
     fontWeight: 900,
     borderRadius: "10px"
