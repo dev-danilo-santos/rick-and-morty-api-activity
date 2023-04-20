@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent:'center',
     fontSize: 18,
+    textAlign: 'center'
   },
   characterContainer: {
     display:'flex',
@@ -127,8 +128,8 @@ const styles = StyleSheet.create({
   characterImage: {
     width: 200,
     height: 200,
-    borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px"
+    borderTopLeftRadius: "8px",
+    borderTopRightRadius: "8px"
   },
   textInput: {
     borderWidth: 1,

@@ -61,18 +61,17 @@ const EpisodeScreen = ({navigation, route}) => {
         data={Object.values(episode)}
         renderItem={({ item: { name, air_date, episode, id } }) => {
           return (
-            <Text style={styles.characterContainer}>
-              
+            <View style={styles.characterContainer}>
               <View style={styles.charInfo}>
-                <Text>{name}</Text>
+                <Text style={styles.title}>{name}</Text>
                 <Text>{air_date}</Text>
                 <Text>{episode}</Text>
-                <Button
-                  title='Personagens'
-                  onPress={() => findEp(id)}>Personagens</Button>
+                <View style={styles.areaBut}>
+                    <Text onPress={() => findEp(id)} style={styles.fakeButton}>Personagens</Text>
+                </View>
               </View>
               
-            </Text>
+            </View>
           )
         }}
       />
@@ -98,17 +97,8 @@ const styles = StyleSheet.create({
       height: 90,
       marginRight: 10
     },
-    textInput: {
-      borderWidth: 1,
-      borderColor: '#CCCCCC',
-      height: 35,
-      padding: 5
-    },
     marginVertical: {
       marginVertical: 5
-    },
-    card: {
-  
     },
     charInfo: {
       width:'100%',
@@ -116,6 +106,42 @@ const styles = StyleSheet.create({
       borderWidth: 2,
       borderColor: '#CCCCCC',
       padding: '5px'
+    },
+    charInfo: {
+      width:'100%',
+      gap: '5px',
+      borderRadius: "8px",
+      borderWidth: 2,
+      borderColor: '#CCCCCC',
+      padding: '5px',
+    },
+    areaBut:{
+      height: "50px",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    fakeButton:{
+      width: "80%",
+      height: '100%',
+      backgroundColor: "#fcfe8c",
+      display: 'flex',
+      alignItems: "center",
+      justifyContent: 'center',
+      color: "#985a2c",
+      fontWeight: 900,
+      fontSize: "20px",
+      borderRadius: "10px",
+      shadowColor: '#171717',
+      shadowOffset: {width: -2, height: 4},
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+      borderWidth: "1px",
+      borderColor: "#cecece",
+      borderStyle: "solid"
+    },
+    title:{
+      textAlign: 'center',
+      fontSize: "17px",
     }
 })
 export default EpisodeScreen
