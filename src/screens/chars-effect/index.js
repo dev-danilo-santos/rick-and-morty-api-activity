@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Button, View, Image, Text, FlatList, TextInput } from 'react-native'
 import { getCharacter, getCharacterId, getNextCharacterPage } from '../../component/api/rick-and-morty'
+import ThemeContext from '../../context/context'
+import AppTheme from '../../component/api/rick-and-morty/themes'
+import { useContext } from 'react'
+import ThemeToogler from '../../component/themeToogler'
 
 const CharsEffectScreen = ({navigation , route}) => {
   const [fetchResult, setFetchResult] = useState({ pageInfo: {}, characters: [] })
   const [nameSearch, setNameSearch] = useState('')
   const { locationName, episodeName } = route.params || {}
   const [personagens, setPersonagens] = useState({chars: ''});
+  const theme = useContext(ThemeContext)[0];
+  
+
 
   async function fetchNameData() {
     try {
@@ -57,7 +64,8 @@ const CharsEffectScreen = ({navigation , route}) => {
   }, [nameSearch])
 
   return (
-    <View style={styles.mainView}>
+    <View style={[styles.mainView,AppTheme[theme+"Container"]]}>
+      <ThemeToogler/>
       <TextInput
         style={[styles.textInput, styles.marginVertical]}
         onChangeText={setNameSearch}
@@ -103,7 +111,6 @@ const styles = StyleSheet.create({
   mainView: {
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: 'white',
   },
   title: {
     display: 'flex',
