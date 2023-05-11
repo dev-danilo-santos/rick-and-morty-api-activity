@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, FlatList, Button, } from 'react-native'
 import { getEpisode } from '../../component/api/rick-and-morty'
+import ThemeContext from '../../context/context'
+import ThemeToogler from '../../component/themeToogler'
+import AppTheme from '../../component/api/rick-and-morty/themes'
+import { useContext } from 'react'
 
 const EpisodeScreen = ({navigation, route}) => {
   const urls = route.params.episodes
@@ -9,6 +13,7 @@ const EpisodeScreen = ({navigation, route}) => {
   const [episode, setEpisode] = useState({});
   const [characters, setCharacters] = useState([])
   const [episodeName, setEpisodeName] = useState('')
+  const theme = useContext(ThemeContext)[0];
 
   useEffect(() => {
     const fetchEpisodes = async () => {
@@ -55,17 +60,18 @@ const EpisodeScreen = ({navigation, route}) => {
   
 
   return (
-    <View style={styles.mainView}>
+    <View style={[styles.mainView,AppTheme[theme+"Container"]]}>
+      <ThemeToogler/>
         <FlatList
-        style={styles.marginVertical}
+        style={[styles.marginVertical,AppTheme[theme+"Container"]]}
         data={Object.values(episode)}
         renderItem={({ item: { name, air_date, episode, id } }) => {
           return (
             <View style={styles.characterContainer}>
               <View style={styles.charInfo}>
-                <Text style={styles.title}>{name}</Text>
-                <Text>{air_date}</Text>
-                <Text>{episode}</Text>
+                <Text style={[styles.title,AppTheme[theme]]}>{name}</Text>
+                <Text style={AppTheme[theme]}>{air_date}</Text>
+                <Text style={AppTheme[theme]}>{episode}</Text>
                 <View style={styles.areaBut}>
                     <Text onPress={() => findEp(id)} style={styles.fakeButton}>Personagens</Text>
                 </View>

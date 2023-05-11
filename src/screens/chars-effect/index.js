@@ -67,13 +67,13 @@ const CharsEffectScreen = ({navigation , route}) => {
     <View style={[styles.mainView,AppTheme[theme+"Container"]]}>
       <ThemeToogler/>
       <TextInput
-        style={[styles.textInput, styles.marginVertical]}
+        style={[styles.textInput, styles.marginVertical, AppTheme[theme]]}
         onChangeText={setNameSearch}
         placeholder='Pesquise algum personagem'
         value={nameSearch}
       />
-       {episodeName && <Text style={styles.title}>{episodeName}</Text>}
-       {location && <Text style={styles.title}>{locationName}</Text>}
+       {episodeName && <Text style={[styles.title,AppTheme[theme]]}>{episodeName}</Text>}
+       {location && <Text style={[styles.title,AppTheme[theme]]}>{locationName}</Text>}
       <FlatList
         style={styles.marginVertical}
         data={fetchResult.characters}
@@ -83,10 +83,10 @@ const CharsEffectScreen = ({navigation , route}) => {
             <Text onPress={() => fetchCharacterDetails(name)} style={styles.characterContainer}>
               
               <Image style={styles.characterImage} source={{ uri: image }} />
-              <Text style={[styles.absolute,styleColor(status)]}>{status}</Text>
+              <Text style={[styles.absolute,styleColor(status),]}>{status}</Text>
               <View style={styles.txtBox}>
-                <Text><strong>{name}</strong></Text>
-                <Text>{species}</Text>
+                <Text style={AppTheme[theme]} ><strong>{name}</strong></Text>
+                <Text style={AppTheme[theme]} >{species}</Text>
               </View>
               
             </Text>

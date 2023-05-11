@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text} from 'react-native'
 import { getLocation } from '../../component/api/rick-and-morty'
+import ThemeContext from '../../context/context'
+import ThemeToogler from '../../component/themeToogler'
+import AppTheme from '../../component/api/rick-and-morty/themes'
+import { useContext } from 'react'
 
 const LocationDetailScreen = ({ navigation,route }) => {
   const { name } = route.params
   const [location, setLocation] = useState({})
+  const theme = useContext(ThemeContext)[0];
 
   useEffect(() => {
     async function fetchLocation() {
@@ -34,12 +39,13 @@ const LocationDetailScreen = ({ navigation,route }) => {
   }
   
   return (
-    <View style={styles.View}>
+    <View style={[styles.View,AppTheme[theme+"Container"]]}>
+      <ThemeToogler/>
       {location && (
-        <View style={styles.mainView}>
-          <Text>Name: {location.name}</Text>
-          <Text>Type: {location.type}</Text>
-          <Text>Dimension: {location.dimension}</Text>
+        <View style={[styles.mainView,AppTheme[theme+"Container"]]}>
+          <Text style={AppTheme[theme]}>Name: {location.name}</Text>
+          <Text style={AppTheme[theme]}>Type: {location.type}</Text>
+          <Text style={AppTheme[theme]}>Dimension: {location.dimension}</Text>
           <View style={styles.areaBut}>
               <Text onPress={() => handleClick(location.residents, location.name)} style={styles.fakeButton}>Residents</Text>
           </View>
@@ -53,11 +59,12 @@ const LocationDetailScreen = ({ navigation,route }) => {
 const styles = StyleSheet.create({
   View:{
     padding: 10,
+    height: '100%',
+    marginTop: 20
   },
   mainView: {
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: 'white',
     width:'100%',
     gap: '5px',
     borderWidth: 2,

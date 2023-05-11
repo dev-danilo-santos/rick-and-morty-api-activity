@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Image } from 'react-native'
 import { getCharacter } from '../../component/api/rick-and-morty'
+import ThemeContext from '../../context/context'
+import ThemeToogler from '../../component/themeToogler'
+import AppTheme from '../../component/api/rick-and-morty/themes'
+import { useContext } from 'react'
 
 const CharacterDetailScreen = ({navigation,route }) => {
   const { name } = route.params
   const [character, setCharacter] = useState(null)
   const [modalVisible, setModalVisible] = useState(true);
+  const theme = useContext(ThemeContext)[0];
 
   function fetchLocationDetails(name) {
     navigation.navigate('LocationDetail',{name})
@@ -35,19 +40,20 @@ const CharacterDetailScreen = ({navigation,route }) => {
   }, [])
   
   return (
-    <View>
+    <View style={[AppTheme[theme+"Container"]]}>
+      <ThemeToogler/>
       {character && (
         <View style={styles.charInfo}>
           <View style={styles.charBox}>
             <Image style={styles.charImg} source={{ uri: character.image }} />
             <Text style={[styleColor(character.status), styles.charStatus]}>Status: {character.status}</Text>
           </View>
-          <View style={styles.charFile}>
-            <Text style={styles.charInfos}>Name: {character.name}</Text>
+          <View style={[styles.charFile,]}>
+            <Text style={[styles.charInfos,AppTheme[theme]]}>Name: {character.name}</Text>
 
-            <Text style={styles.charInfos}>Species: {character.species}</Text>
-            <Text style={styles.charInfos}>Type: { character.type ? character.type : "Unkdown" }</Text>
-            <Text style={styles.charInfos}>Gender: {character.gender}</Text>
+            <Text style={[styles.charInfos,AppTheme[theme]]}>Species: {character.species}</Text>
+            <Text style={[styles.charInfos,AppTheme[theme]]}>Type: { character.type ? character.type : "Unkdown" }</Text>
+            <Text style={[styles.charInfos,AppTheme[theme]]}>Gender: {character.gender}</Text>
 
             <Text style={styles.charLocs} onPress={() => fetchLocationDetails(character.origin.name)}>Origin: {character.origin.name}</Text>
             <Text style={styles.charLocs} onPress={() => fetchLocationDetails(character.location.name)}>Location: {character.location.name}</Text>
